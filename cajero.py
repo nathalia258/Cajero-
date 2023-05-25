@@ -33,18 +33,18 @@ def validarNegativo(valor):
   
 def registrar():
   nombre = input("Ingrese su nombre ")
-  if validarDatoVacio(nombre) or validarCadena(nombre) == False:
+  if validarDatoVacio(nombre) or not validarCadena(nombre) :
     print("Debe ingresar un dato valido")
     return menuPrincipal()
   
   apellido = input("Ingrese su apellido ")
-  if validarDatoVacio(apellido) or validarCadena(apellido)== False:
+  if validarDatoVacio(apellido) or not validarCadena(apellido):
     print("Debe ingresar un dato valido")
     return menuPrincipal()
 
   cedula = input("Ingrese su cédula ")
   cedula = validarTipodeDato(cedula)
-  if cedula == False or validarNegativo(cedula):
+  if not cedula or validarNegativo(cedula):
     print("Debe ingresar un dato valido")
     return menuPrincipal()
   if validarSiExiste(cedula):
@@ -53,7 +53,7 @@ def registrar():
   
   edad = input("Ingrese su edad ")
   edad = validarTipodeDato(edad)
-  if edad == False or validarNegativo(edad):
+  if not edad or validarNegativo(edad):
     print("Debe ingresar un dato valido")
     return menuPrincipal()
 
@@ -64,7 +64,7 @@ def registrar():
   
   deposito = input("Para poder crear su cuenta, debe depositar una suma minima de 50.000, ingrese el valor que desea depositar ")
   deposito = validarTipodeDato(deposito)
-  if deposito == False or validarValor(deposito) == False or deposito<50000:
+  if not deposito or not validarValor(deposito) or deposito<50000:
     print("Debe ingresar un dato valido")
     return menuPrincipal()
   print("---------------------------------------")
@@ -78,12 +78,12 @@ def registrar():
 def ingresar():
   cedula = input("Ingrese su cédula ")
   cedula = validarTipodeDato(cedula)
-  if validarDatoVacio(cedula) or cedula == False:
+  if validarDatoVacio(cedula) or not cedula :
     print("Debe ingresar un dato valido")
     return menuPrincipal()
  
   usuario = validarSiExiste(cedula)
-  if usuario == False:
+  if not usuario:
     print ("No se encuentra registrado")
     return menuPrincipal()
   
@@ -104,7 +104,7 @@ def menuPrincipal():
   op = input("Selecciona una opción: ")
   print("---------------------------------------")
   op = validarTipodeDato(op)
-  if op == False:
+  if not op :
     print("Error: Ingrese un dato válido.")
     return menuPrincipal()
   if op==1:
@@ -124,15 +124,15 @@ def depositoDeuda(usuario):
     return menuUsuario(usuario)
   if validarTipodeDato(deposito):
     deposito = validarTipodeDato(deposito)
-    if validarNegativo(deposito)==False and validarValor(deposito):
+    if not validarNegativo(deposito) and validarValor(deposito):
       if validarDeuda(usuario):
         deuda = usuario["deuda"]
         op = input("Usted tiene una deuda. \n 1.Abonar a la deuda \n 2.Enviar al capital\nIngrese el numero correspondiente: ")
-        if validarDatoVacio(op)==True:
+        if validarDatoVacio(op):
           print("Debe ingresar el dato requerido")
           return menuUsuario(usuario)
         op = validarTipodeDato(op)
-        if op == False:
+        if not op:
           print("Error: Ingrese un dato válido.")
           return menuPrincipal()
         if op==1:
@@ -191,7 +191,7 @@ def prestamo(usuario):
     print("Debe ingresar el dato requerido")
     return menuUsuario(usuario)
   prestamo = validarTipodeDato(prestamo)
-  if validarValor(prestamo) and validarNegativo(prestamo)==False and prestamo<=cupo:
+  if validarValor(prestamo) and not validarNegativo(prestamo) and prestamo<=cupo:
     print("Prestamo aprobado")
     usuario['historial'].append(f"Realizó un prestamo de {prestamo} {datetime.now()}")
     usuario["deuda"] = (prestamo)
@@ -206,7 +206,7 @@ def menuUsuario(usuario):
   op = input("Ingrese una opcion: ")
   print("---------------------------------------")
   op = validarTipodeDato(op)
-  if validarDatoVacio(op)==True or op == False:
+  if validarDatoVacio(op) or not op :
     print("Debe ingresar un dato valido")
     return menuUsuario(usuario)
   if op==1:
@@ -243,5 +243,7 @@ def menuUsuario(usuario):
     return menuPrincipal()
   print("Opcion invalida")
   return menuUsuario(usuario)
-
-menuPrincipal()
+try:
+  menuPrincipal()
+ except: 
+   print("Chaooooo")
